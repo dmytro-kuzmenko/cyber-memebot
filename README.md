@@ -11,14 +11,14 @@ source venv/bin/activate
 pip install -r requirements.txt
 pip install git+https://github.com/openai/CLIP.git
 
+```
 In venv (either in jupyter or in python directly) run:
-
+```console
 import clip
 device = "cpu"
 clip.load("ViT-B/32", device=device)
-
-This will download ViT in cache.
 ```
+This will download ViT in cache.
 
 3. Create model archive
 `torch-model-archiver -f --model-name model1 --version 1.0  --serialized-file weights/img_feature.pt --handler model_handler.py --export-path model_store`
