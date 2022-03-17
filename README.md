@@ -1,5 +1,5 @@
 
-# Русский военный корабль, иди нахуй
+# руський воєнний корабль -- іди нах!й
 
 1. Create image embeddings in `.pt` format and locate it in `weigths` folder.
 
