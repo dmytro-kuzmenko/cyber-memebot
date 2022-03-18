@@ -18,10 +18,11 @@ class Demo:
     def run_model(self, text):
         return self.handler([{'text': text}])[0]
 
+
 if __name__ == '__main__':
     runner = Demo()
 
-    text = 'hello'
+    text = 'зсу'
 
     result = runner.run_model(text)
     print(result)

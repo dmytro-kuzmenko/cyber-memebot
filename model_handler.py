@@ -17,7 +17,7 @@ class CustomHandler(BaseHandler):
         self.device = torch.device('cpu') #torch.device(f'cuda:{torch.cuda.device_count() - 1}')
         self.dtype = torch.int
         self.use_jit = True
-        self.top_k = 5
+        self.top_k = 10
 
     def init_models(self, random_img_batch, random_text_batch):
         image_features = self.model.encode_image(random_img_batch)
@@ -49,7 +49,7 @@ class CustomHandler(BaseHandler):
     def preprocess(self, data):
         items = list()
         for row in data:
-            text = row.get('text').decode("utf-8")
+            text = row.get('text')
             logger.info(f'Text: {text}')
             items.append(
                 {
