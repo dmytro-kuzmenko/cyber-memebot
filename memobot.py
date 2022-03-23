@@ -7,10 +7,11 @@ from aiogram.dispatcher.filters import CommandStart
 from aiogram.types import Message, InputFile, InputMediaPhoto, ContentTypes  # TODO Realize photo saving in DB
 from aiogram.utils import executor
 
+from database import get_index_maps
 from demo import Demo
+from config import config
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-bot = Bot(BOT_TOKEN)
+bot = Bot(config.BOT_TOKEN)
 
 dp = Dispatcher(bot=bot)
 runner = Demo()
@@ -18,12 +19,7 @@ runner = Demo()
 dp.setup_middleware(LoggingMiddleware())
 
 # region Photo loading
-root = "images/"
-img_names = [root+path for path in os.listdir(root)]
-
-full_paths = [f"{f}/{i}" for f in img_names for i in os.listdir(f)]
-
-
+photos = await get_index_maps()
 # endregion
 
 # region Start
@@ -34,10 +30,17 @@ async def start(msg: Message):
 
 # endregion
 
+
+
+@dp.message_handler(commands=["id"]) # know id
+async def get_chat_id(msg: Message):
+    return await msg.answer(msg.chat.id)
+
+
 @dp.message_handler(content_types=ContentTypes.TEXT)
 async def process(msg: Message):
     results = runner.run_model(msg.text)["indices"]
-    to_send = [InputMediaPhoto(InputFile(full_paths[i])) for i in results]
+    to_send = [InputMediaPhoto(photos[i]) for i in results]
     return await bot.send_media_group(msg.chat.id, to_send, disable_notification=True,
                                       reply_to_message_id=msg.message_id, allow_sending_without_reply=True)
 
