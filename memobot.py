@@ -19,7 +19,7 @@ runner = Demo()
 dp.setup_middleware(LoggingMiddleware())
 
 # region Photo loading
-photos = await get_index_maps()
+photos = get_index_maps()
 # endregion
 
 # region Start
